@@ -1,0 +1,13 @@
+{
+  "name": "@fireaw.ai/sdk",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "mkdir -p dist; tsc; cp package.json README.md LICENSE dist"
+  },
+  "dependencies": {
+    "@rails/actioncable": "^7.0.7"
+  },
+  "devDependencies": {
+    "@types/rails__actioncable": "^6.1.6"
+  }
+}
