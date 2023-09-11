@@ -21,6 +21,8 @@ class ChatChannel {
     connect() {
         return __awaiter(this, void 0, void 0, function* () {
             this.chat = yield this.createChat();
+            // Show the greeting(s)
+            this.chat.messages.forEach((message) => this.onMessage(message));
             this.consumer = (0, actioncable_1.createConsumer)(`ws${this.host.startsWith("localhost") ? "" : "s"}://${this.host}/cable`);
             this.subscription = this.consumer.subscriptions.create({
                 channel: this.channel,
@@ -39,7 +41,7 @@ class ChatChannel {
     }
     createChat() {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield fetch(`${this.apiHost}/api/chats`, {
+            const res = yield fetch(`${this.apiHost}/api/v1/chats`, {
                 method: "POST",
                 body: JSON.stringify({
                     chat: {
@@ -69,6 +71,15 @@ class ChatChannel {
             command: "message",
             identifier: JSON.stringify({ channel: this.channel, id: this.chat.id }),
             data: message,
+        });
+    }
+    vote(messageId, vote) {
+        var _a;
+        (_a = this.subscription) === null || _a === void 0 ? void 0 : _a.send({
+            command: "vote",
+            identifier: JSON.stringify({ channel: this.channel, id: this.chat.id }),
+            message_id: messageId,
+            vote,
         });
     }
 }

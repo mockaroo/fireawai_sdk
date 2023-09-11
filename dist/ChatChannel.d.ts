@@ -27,5 +27,6 @@ export default class ChatChannel {
     createChat(): Promise<any>;
     disconnect(): void;
     send(message: string): void;
+    vote(messageId: string, vote: boolean): void;
 }
 export {};

@@ -42,6 +42,10 @@ export default class ChatChannel {
 
   async connect() {
     this.chat = await this.createChat();
+
+    // Show the greeting(s)
+    this.chat.messages.forEach((message: Message) => this.onMessage(message));
+
     this.consumer = createConsumer(
       `ws${this.host.startsWith("localhost") ? "" : "s"}://${this.host}/cable`
     );
@@ -66,7 +70,7 @@ export default class ChatChannel {
   }
 
   async createChat() {
-    const res = await fetch(`${this.apiHost}/api/chats`, {
+    const res = await fetch(`${this.apiHost}/api/v1/chats`, {
       method: "POST",
       body: JSON.stringify({
         chat: {
@@ -95,6 +99,15 @@ export default class ChatChannel {
       command: "message",
       identifier: JSON.stringify({ channel: this.channel, id: this.chat.id }),
       data: message,
+    });
+  }
+
+  vote(messageId: string, vote: boolean) {
+    this.subscription?.send({
+      command: "vote",
+      identifier: JSON.stringify({ channel: this.channel, id: this.chat.id }),
+      message_id: messageId,
+      vote,
     });
   }
 }

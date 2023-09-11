@@ -1,13 +1,17 @@
 {
   "name": "@fireaw.ai/sdk",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "scripts": {
-    "build": "mkdir -p dist; tsc; cp package.json README.md LICENSE dist"
+    "build": "mkdir -p dist; tsc; cp package.json README.md LICENSE dist",
+    "publish-to-npm": "cd dist && npm publish --access public",
+    "release": "npm run build && npm run publish-to-npm",
+    "yalc-publish": "yarn build && pushd dist; yalc publish --push; popd;"
   },
   "dependencies": {
     "@rails/actioncable": "^7.0.7"
   },
   "devDependencies": {
-    "@types/rails__actioncable": "^6.1.6"
+    "@types/rails__actioncable": "^6.1.6",
+    "yalc": "^1.0.0-pre.53"
   }
 }
