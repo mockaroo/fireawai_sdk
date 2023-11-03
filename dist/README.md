@@ -18,8 +18,8 @@ const channel = new ChatChannel({
   // See https://www.fireaw.ai/account to manage your API tokens
   apiToken: "<your api token here>",
 
-  // Copy the collection id from the website view in https://www.fireaw.ai
-  collectionId: "<your collection id here>",
+  // Copy the chatbot id from the publish tab in https://www.fireaw.ai
+  chatbotId: "<your chatbot id here>",
 
   // Will be called each time a new message is received (both user and assistant messages)
   onMessage: (message) => {

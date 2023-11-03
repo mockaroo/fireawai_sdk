@@ -11,9 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const actioncable_1 = require("@rails/actioncable");
 class ChatChannel {
-    constructor({ apiToken, collectionId, onMessage, host = "www.fireaw.ai", }) {
+    constructor({ apiToken, chatbotId, onMessage, host = "www.fireaw.ai", }) {
         this.apiToken = apiToken;
-        this.collectionId = collectionId;
+        this.chatbotId = chatbotId;
         this.channel = "ChatChannel";
         this.onMessage = onMessage;
         this.host = host;
@@ -45,7 +45,7 @@ class ChatChannel {
                 method: "POST",
                 body: JSON.stringify({
                     chat: {
-                        collection_id: this.collectionId,
+                        collection_id: this.chatbotId,
                     },
                 }),
                 headers: {

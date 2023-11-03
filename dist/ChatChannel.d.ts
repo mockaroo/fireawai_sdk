@@ -8,20 +8,20 @@ type Message = {
 };
 type ChatChannelProps = {
     apiToken: string;
-    collectionId: string;
+    chatbotId: string;
     onMessage: (message: Message) => void;
     host?: string;
 };
 export default class ChatChannel {
     private readonly apiToken;
-    private readonly collectionId;
+    private readonly chatbotId;
     private readonly channel;
     private readonly onMessage;
     private readonly host;
-    private chat;
+    chat: any;
     private consumer?;
     private subscription?;
-    constructor({ apiToken, collectionId, onMessage, host, }: ChatChannelProps);
+    constructor({ apiToken, chatbotId, onMessage, host, }: ChatChannelProps);
     connect(): Promise<void>;
     get apiHost(): string;
     createChat(): Promise<any>;

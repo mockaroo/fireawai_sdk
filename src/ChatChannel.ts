@@ -11,30 +11,30 @@ type Message = {
 
 type ChatChannelProps = {
   apiToken: string;
-  collectionId: string;
+  chatbotId: string;
   onMessage: (message: Message) => void;
   host?: string;
 };
 
 export default class ChatChannel {
   private readonly apiToken: string;
-  private readonly collectionId: string;
+  private readonly chatbotId: string;
   private readonly channel: string;
   private readonly onMessage: (message: Message) => void;
   private readonly host: string;
 
-  private chat: any;
+  chat: any;
   private consumer?: Consumer;
   private subscription?: Subscription<any>;
 
   constructor({
     apiToken,
-    collectionId,
+    chatbotId,
     onMessage,
     host = "www.fireaw.ai",
   }: ChatChannelProps) {
     this.apiToken = apiToken;
-    this.collectionId = collectionId;
+    this.chatbotId = chatbotId;
     this.channel = "ChatChannel";
     this.onMessage = onMessage;
     this.host = host;
@@ -74,7 +74,7 @@ export default class ChatChannel {
       method: "POST",
       body: JSON.stringify({
         chat: {
-          collection_id: this.collectionId,
+          collection_id: this.chatbotId,
         },
       }),
       headers: {
