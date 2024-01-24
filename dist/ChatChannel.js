@@ -11,12 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const actioncable_1 = require("@rails/actioncable");
 class ChatChannel {
-    constructor({ apiToken, chatbotId, onMessage, host = "www.fireaw.ai", }) {
+    constructor({ apiToken, chatbotId, onMessage, host = "www.fireaw.ai", includeContext = false, }) {
         this.apiToken = apiToken;
         this.chatbotId = chatbotId;
         this.channel = "ChatChannel";
         this.onMessage = onMessage;
         this.host = host;
+        this.includeContext = includeContext;
     }
     connect() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -46,6 +47,7 @@ class ChatChannel {
                 body: JSON.stringify({
                     chat: {
                         collection_id: this.chatbotId,
+                        include_context: this.includeContext,
                     },
                 }),
                 headers: {

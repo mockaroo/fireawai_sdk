@@ -1,12 +1,47 @@
 import { Consumer, Subscription, createConsumer } from "@rails/actioncable";
 
 type Message = {
+  /**
+   * The internal id of the message
+   */
   id: string;
+
+  /**
+   * The message text
+   */
   content: string;
-  role: string;
+
+  /**
+   * Whether the message was sent by the user or the assistant
+   */
+  role: "user" | "assistant";
+
+  /**
+   * The utc timestamp when the message was created
+   */
   created_at: string;
+
+  /**
+   * The number of tokens the message costs
+   */
   tokens: number;
+
+  /**
+   * The estimated cost of the message in USD
+   */
   cost: number;
+
+  /**
+   * True when all content has been received, otherwise false
+   */
+  finished: boolean;
+
+  /**
+   * The document chunks that were retreived and injected into the user prompt as "{{docs}}".
+   * This is only present when the message is an assistant message, finished is true, and
+   * the ChatChannel was created with the includeConyext option set to true.
+   */
+  context: string;
 };
 
 type ChatChannelProps = {
@@ -14,6 +49,7 @@ type ChatChannelProps = {
   chatbotId: string;
   onMessage: (message: Message) => void;
   host?: string;
+  includeContext?: boolean;
 };
 
 export default class ChatChannel {
@@ -22,6 +58,7 @@ export default class ChatChannel {
   private readonly channel: string;
   private readonly onMessage: (message: Message) => void;
   private readonly host: string;
+  private readonly includeContext: boolean;
 
   chat: any;
   private consumer?: Consumer;
@@ -32,12 +69,14 @@ export default class ChatChannel {
     chatbotId,
     onMessage,
     host = "www.fireaw.ai",
+    includeContext = false,
   }: ChatChannelProps) {
     this.apiToken = apiToken;
     this.chatbotId = chatbotId;
     this.channel = "ChatChannel";
     this.onMessage = onMessage;
     this.host = host;
+    this.includeContext = includeContext;
   }
 
   async connect() {
@@ -75,6 +114,7 @@ export default class ChatChannel {
       body: JSON.stringify({
         chat: {
           collection_id: this.chatbotId,
+          include_context: this.includeContext,
         },
       }),
       headers: {

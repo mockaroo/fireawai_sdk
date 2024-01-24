@@ -1,6 +1,6 @@
 {
   "name": "@fireaw.ai/sdk",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "scripts": {
     "build": "mkdir -p dist; tsc; cp package.json README.md LICENSE dist",
     "publish-to-npm": "cd dist && npm publish --access public",
